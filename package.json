@@ -1,0 +1,12 @@
+{
+  "name": "fp-javascript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/lopun/fp-javascript",
+  "author": "고지훈 <ujin43255252@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.11",
+    "ramda": "^0.26.1"
+  }
+}

@@ -5,12 +5,23 @@ class Wrapper {
     this._value = value;
   }
 
-  map(f) {
-    return f(this._value);
+  static of(a) {
+    return new Wrapper(a);
   }
 
-  fmap(f) {
-    return new Wrapper(f(this._value));
+  map(f) {
+    return Wrapper.of(f(this._value));
+  }
+
+  join() {
+    if (!(this._value instanceof Wrapper)) {
+      return this;
+    }
+    return this._value.join();
+  }
+
+  get() {
+    return this._value;
   }
 
   toString() {
@@ -20,17 +31,26 @@ class Wrapper {
 
 const wrap = val => new Wrapper(val);
 
-const plus = R.curry((a, b) => a + b);
-const plus3 = plus(3);
+const db = {
+  student1: {
+    address: "Some Address"
+  }
+}
 
-const two = wrap(2);
+const find = (db, id) => {
+  return db[id]
+}
 
-const five = two.fmap(plus3);
-console.log(five.map(R.identity));
+
+const findObject = R.curry((db, id) => Wrapper.of(find(db, id)))
+
+const getAddress = student => Wrapper.of(student.map(R.prop('address')))
+
+const studentAddress = R.compose(getAddress, findObject(db))
+
+console.log(studentAddress('student1').join().get())
 
 module.exports = {
   Wrapper,
-  wrap,
-  plus3,
-  plus
+  wrap
 };
